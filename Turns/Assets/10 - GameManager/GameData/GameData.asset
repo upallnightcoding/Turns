@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2fcc1cf5272d347b62ecde82f5100b, type: 3}
+  m_Name: GameData
+  m_EditorClassIdentifier: 
+  boardSize: 3
+  parent: {fileID: 0}
+  turnTilePreFab: {fileID: 605017664973202600, guid: 19b81da70d0d641429ca829fdd7c4680, type: 3}
+  turnTileSymbolsPreFab:
+  - {fileID: 689192334796466670, guid: f09f225589670984db5d2971fac2f844, type: 3}
+  - {fileID: 5976133769069860956, guid: dea6862fb790db44c8b95c4b5cbc0b1b, type: 3}
+  - {fileID: 6691152675936294014, guid: 313b5a9a49ada4d47b4ae640345546e7, type: 3}
+  - {fileID: 7554027700380871249, guid: 626ef0af66627654182758850ae36368, type: 3}
+  - {fileID: 7815133333787212941, guid: e1e3cb17b6a54d14ba0d0e0be5f2b23f, type: 3}
+  symbolName:
+  - NorthTile
+  - EastTile
+  - SouthTile
+  - WestTile

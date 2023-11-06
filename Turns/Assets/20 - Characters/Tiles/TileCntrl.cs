@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class TileCntrl : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve curve;
-    [SerializeField] private float durationSec;
-    [SerializeField] private float speed;
-    [SerializeField] private float rotationAmount;
+    [SerializeField] private int[] symbols;
 
+    private int col = -1;
+    private int row = -1;
+
+    void Awake()
+    {
+        symbols = new int[4];
+        symbols[GameData.NORTH_TILE] = -1;
+        symbols[GameData.SOUTH_TILE] = -1;
+        symbols[GameData.EAST_TILE] = -1;
+        symbols[GameData.WEST_TILE] = -1;
+    }
+
+    // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(RotateTile());
+        
     }
 
     // Update is called once per frame
@@ -20,37 +30,19 @@ public class TileCntrl : MonoBehaviour
         
     }
 
-    public void rotateTile(bool turn)
+    public void Initialize(int col, int row)
     {
-        StartCoroutine(RotateTile(turn));
+        this.col = col;
+        this.row = row;
     }
 
-    private IEnumerator RotateTile(bool turn)
+    public void Set(int symbolPosIndex, int symbolIndex)
     {
-        float rotation = 0.0f;
-        float amount = 0.0f;
-        float clockWise = turn ? 1.0f : -1.0f;
-
-        while (amount <= 90.0)
-        {
-            rotation += Time.deltaTime;
-            transform.localRotation = Quaternion.Euler(new Vector3(0.0f, clockWise * amount, 0.0f));
-            amount += curve.Evaluate(rotation);
-            yield return null;
-        }
+        symbols[symbolPosIndex] = symbolIndex;
     }
 
-    private IEnumerator xRotateTile()
+    public int GetSymbol(int symbolPosIndex)
     {
-        float seconds = 0.0f;
-        float curveAmount = curve.Evaluate(seconds);
-
-        while (curveAmount < 1.0f)
-        {
-            seconds += Time.deltaTime;
-            curveAmount = curve.Evaluate(seconds);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, curveAmount * speed, 0.0f));
-            yield return null;
-        }
+        return (symbols[symbolPosIndex]);
     }
 }
