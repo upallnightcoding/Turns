@@ -26,3 +26,4 @@ MonoBehaviour:
   - EastTile
   - SouthTile
   - WestTile
+  nScramble: 20

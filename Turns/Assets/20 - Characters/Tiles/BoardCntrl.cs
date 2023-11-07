@@ -6,14 +6,15 @@ using UnityEngine.InputSystem;
 public class BoardCntrl : MonoBehaviour
 {
     [SerializeField] private GameData gameData;
+    [SerializeField] private Transform boardParent;
 
     private GameObject[,] board;
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateBoard();
-        //CreateBoardMatch();
+        CreateBoard(boardParent);
+        ScrambleBoard();
     }
 
     // Update is called once per frame
@@ -32,7 +33,7 @@ public class BoardCntrl : MonoBehaviour
 
     //=========================================================================
 
-    private void CreateBoard()
+    private void CreateBoard(Transform parent)
     {
         board = new GameObject[gameData.boardSize, gameData.boardSize];
 
@@ -45,6 +46,7 @@ public class BoardCntrl : MonoBehaviour
                 GameObject tile = Instantiate(tilePreFab, position, Quaternion.identity);
                 tile.GetComponent<TileCntrl>().Initialize(col, row);
                 board[col, row] = tile;
+                //tile.transform.SetParent(parent);
 
                 CreateTileSymbols(tile, GameData.NORTH_TILE, GetSymbol());
                 CreateTileSymbols(tile, GameData.EAST_TILE, GetSymbol());
@@ -79,6 +81,20 @@ public class BoardCntrl : MonoBehaviour
         }
     }
 
+    public void ScrambleBoard()
+    {
+        for (int n = 0; n < gameData.nScramble; n++)
+        {
+            int col = Random.Range(0, gameData.boardSize);
+            int row = Random.Range(0, gameData.boardSize);
+
+            GameObject tile = board[col, row];
+            
+            RotateTile(tile.transform, Random.Range(0, 2) == 0);
+        }
+    }
+
+
     /**
      * CreateTileSymbols() - 
      */
@@ -109,13 +125,18 @@ public class BoardCntrl : MonoBehaviour
         {
             Transform parent = hit.transform.parent;
 
-            Rotate(parent, turn);
-
-            Rotate(parent.Find("NorthTile_Symbol").transform, !turn);
-            Rotate(parent.Find("SouthTile_Symbol").transform, !turn);
-            Rotate(parent.Find("EastTile_Symbol").transform, !turn);
-            Rotate(parent.Find("WestTile_Symbol").transform, !turn);
+            RotateTile(parent, turn);
         }
+    }
+
+    private void RotateTile(Transform parent, bool turn)
+    {
+        Rotate(parent, turn);
+
+        Rotate(parent.Find("NorthTile_Symbol").transform, !turn);
+        Rotate(parent.Find("SouthTile_Symbol").transform, !turn);
+        Rotate(parent.Find("EastTile_Symbol").transform, !turn);
+        Rotate(parent.Find("WestTile_Symbol").transform, !turn);
     }
 
     private void Rotate(Transform transform, bool turn)

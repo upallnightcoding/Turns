@@ -17,4 +17,6 @@ public class GameData : ScriptableObject
     public GameObject[] turnTileSymbolsPreFab;
 
     public string[] symbolName;
+
+    public int nScramble;
 }
