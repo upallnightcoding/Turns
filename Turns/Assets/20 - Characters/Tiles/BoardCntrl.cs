@@ -13,8 +13,30 @@ public class BoardCntrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DisplayBoard();
+    }
+
+    public void DisplayBoard()
+    {
         CreateBoard(boardParent);
+    }
+
+    public void StartGame()
+    {
         ScrambleBoard();
+    }
+
+    public void DestroyBoard()
+    {
+        int boardSize = GameManager.Instance.BoardSize;
+
+        for (int row = 0; row < boardSize; row++)
+        {
+            for (int col = 0; col < boardSize; col++)
+            {
+                Destroy(board[col, row]);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -33,15 +55,41 @@ public class BoardCntrl : MonoBehaviour
 
     //=========================================================================
 
+    private Vector3 GetPosition(int col, int row)
+    {
+        Vector4 position = Vector3.zero;
+
+        switch(GameManager.Instance.BoardSize)
+        {
+            case 3: 
+                position = new Vector3(col * 5 - 5, 0.0f, row * 5 - 5);
+                break;
+            case 4: 
+                position = new Vector3((col - 2) * 5.0f + 2.5f, 0.0f, (row - 2) * 5.0f + 2.5f);
+                break;
+            case 5: 
+                position = new Vector3((col - 2) * 5.0f, 0.0f, (row - 2) * 5.0f);
+                break;
+        }
+
+        return (position);
+    }
+
     private void CreateBoard(Transform parent)
     {
-        board = new GameObject[gameData.boardSize, gameData.boardSize];
+        int boardSize = GameManager.Instance.BoardSize;
 
-        for (int row = 0; row < gameData.boardSize; row++)
+        board = new GameObject[boardSize, boardSize];
+
+        for (int row = 0; row < boardSize; row++)
         {
-            for (int col = 0; col < gameData.boardSize; col++)
+            for (int col = 0; col < boardSize; col++)
             {
-                Vector3 position = new Vector3(col * 5 - 5, 0.0f, row * 5 - 5);
+                //Vector3 position = new Vector3(col * 5 - 5, 0.0f, row * 5 - 5);
+                //Vector3 position = new Vector3((col-2) * 5.0f + 2.5f, 0.0f, (row-2) * 5.0f + 2.5f);
+                //Vector3 position = new Vector3((col - 2) * 5.0f, 0.0f, (row - 2) * 5.0f);
+                Vector3 position = GetPosition(col, row);
+
                 GameObject tilePreFab = gameData.turnTilePreFab;
                 GameObject tile = Instantiate(tilePreFab, position, Quaternion.identity);
                 tile.GetComponent<TileCntrl>().Initialize(col, row);
@@ -53,9 +101,9 @@ public class BoardCntrl : MonoBehaviour
             }
         }
 
-        for (int row = 0; row < gameData.boardSize; row++)
+        for (int row = 0; row < boardSize; row++)
         {
-            for (int col = 0; col < gameData.boardSize; col++)
+            for (int col = 0; col < boardSize; col++)
             {
                 GameObject tile = board[col, row];
                 tile.GetComponent<TileCntrl>().Initialize(col, row);
@@ -83,10 +131,12 @@ public class BoardCntrl : MonoBehaviour
 
     public void ScrambleBoard()
     {
+        int boardSize = GameManager.Instance.BoardSize;
+
         for (int n = 0; n < gameData.nScramble; n++)
         {
-            int col = Random.Range(0, gameData.boardSize);
-            int row = Random.Range(0, gameData.boardSize);
+            int col = Random.Range(0, boardSize);
+            int row = Random.Range(0, boardSize);
 
             GameObject tile = board[col, row];
             

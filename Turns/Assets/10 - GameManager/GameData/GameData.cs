@@ -19,4 +19,6 @@ public class GameData : ScriptableObject
     public string[] symbolName;
 
     public int nScramble;
+
+    public float[] cameraPosition;
 }
