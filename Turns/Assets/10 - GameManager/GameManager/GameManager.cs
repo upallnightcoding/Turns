@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameData gameData;
     [SerializeField] private UiCntrl uiCntrl;
     [SerializeField] private BoardCntrl boardCntrl;
+    [SerializeField] private CameraCntrl cameraCntrl;
 
     public static GameManager Instance = null;
 
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
 
         uiCntrl.DisplayBoardSize(++BoardSize);
 
+        cameraCntrl.UpdateCameraPosition(BoardSize - 3);
+
         boardCntrl.DisplayBoard();
     }
 
@@ -54,6 +57,8 @@ public class GameManager : MonoBehaviour
         boardCntrl.DestroyBoard();
 
         uiCntrl.DisplayBoardSize(--BoardSize);
+
+        cameraCntrl.UpdateCameraPosition(BoardSize - 3);
 
         boardCntrl.DisplayBoard();
     }
