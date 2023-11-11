@@ -6,8 +6,8 @@ public class TileCntrl : MonoBehaviour
 {
     [SerializeField] private int[] symbols;
 
-    private int col = -1;
-    private int row = -1;
+    public int Col { get; private set; }
+    public int Row { get; private set; }
 
     void Awake()
     {
@@ -32,8 +32,8 @@ public class TileCntrl : MonoBehaviour
 
     public void Initialize(int col, int row)
     {
-        this.col = col;
-        this.row = row;
+        this.Col = col;
+        this.Row = row;
     }
 
     public void Set(int symbolPosIndex, int symbolIndex)

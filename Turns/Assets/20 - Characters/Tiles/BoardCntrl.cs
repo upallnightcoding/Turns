@@ -162,11 +162,17 @@ public class BoardCntrl : MonoBehaviour
         symbol.transform.SetParent(tile.transform);
     }
 
+    /**
+     * GetSymbol() - 
+     */
     private int GetSymbol()
     {
-        return(Random.Range(0, gameData.turnTileSymbolsPreFab.Length));
+        return(Random.Range(0, GameManager.Instance.NColors));
     }
 
+    /**
+     * RotateTile() - 
+     */
     private void RotateTile(bool turn)
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
@@ -176,6 +182,24 @@ public class BoardCntrl : MonoBehaviour
             Transform parent = hit.transform.parent;
 
             RotateTile(parent, turn);
+
+            int col = parent.GetComponent<TileCntrl>().Col;
+            int row = parent.GetComponent<TileCntrl>().Row;
+
+            Rotate(col, row + 1, !turn);
+            Rotate(col, row - 1, !turn);
+            Rotate(col + 1, row, !turn);
+            Rotate(col - 1, row, !turn);
+        }
+    }
+
+    private void Rotate(int col, int row, bool turn)
+    {
+        int boardSize = GameManager.Instance.BoardSize;
+
+        if ((col >= 0) && (col < boardSize) && (row >= 0) && (row < boardSize))
+        {
+            RotateTile(board[col, row].transform, turn);
         }
     }
 

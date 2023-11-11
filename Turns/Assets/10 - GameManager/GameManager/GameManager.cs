@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance = null;
 
     public int BoardSize { get; private set; }
+    public int NColors { get; private set; }
 
     private void Awake()
     {
@@ -27,7 +28,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        BoardSize = gameData.boardSize;    
+        BoardSize = gameData.boardSize;
+        NColors = gameData.turnTileSymbolsPreFab.Length;
+    }
+
+    public void NewGame()
+    {
+        uiCntrl.DisplayBoardSize(BoardSize);
+        uiCntrl.DisplayNColors(NColors);
     }
 
     public void StartGame()
@@ -61,5 +69,15 @@ public class GameManager : MonoBehaviour
         cameraCntrl.UpdateCameraPosition(BoardSize - 3);
 
         boardCntrl.DisplayBoard();
+    }
+
+    public void IncNColors()
+    {
+        uiCntrl.DisplayNColors(++NColors);
+    }
+
+    public void DecNColors()
+    {
+        uiCntrl.DisplayNColors(--NColors);
     }
 }
