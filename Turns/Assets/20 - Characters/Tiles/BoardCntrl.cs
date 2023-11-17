@@ -8,6 +8,8 @@ public class BoardCntrl : MonoBehaviour
     [SerializeField] private GameData gameData;
     [SerializeField] private Transform boardParent;
 
+    private VarientType varientType = VarientType.EASY;
+
     private GameObject[,] board;
 
     // Start is called before the first frame update
@@ -24,6 +26,11 @@ public class BoardCntrl : MonoBehaviour
     public void StartGame()
     {
         ScrambleBoard();
+    }
+
+    public void SetVarientType(VarientType type)
+    {
+        varientType = type;
     }
 
     public void DestroyBoard()
@@ -129,6 +136,9 @@ public class BoardCntrl : MonoBehaviour
         }
     }
 
+    /**
+     * ScrambleBoard() - 
+     */
     public void ScrambleBoard()
     {
         int boardSize = GameManager.Instance.BoardSize;
@@ -139,8 +149,13 @@ public class BoardCntrl : MonoBehaviour
             int row = Random.Range(0, boardSize);
 
             GameObject tile = board[col, row];
-            
-            RotateTile(tile.transform, Random.Range(0, 2) == 0);
+
+            Transform parent = tile.transform;
+            bool turn = Random.Range(0, 2) == 0;
+
+            RotateTile(parent, turn);
+
+            MakeVarientMove(parent, turn);
         }
     }
 
@@ -183,13 +198,25 @@ public class BoardCntrl : MonoBehaviour
 
             RotateTile(parent, turn);
 
-            int col = parent.GetComponent<TileCntrl>().Col;
-            int row = parent.GetComponent<TileCntrl>().Row;
+            MakeVarientMove(parent, turn);
+        }
+    }
 
-            Rotate(col, row + 1, !turn);
-            Rotate(col, row - 1, !turn);
-            Rotate(col + 1, row, !turn);
-            Rotate(col - 1, row, !turn);
+    private void MakeVarientMove(Transform parent, bool turn)
+    {
+        int col = parent.GetComponent<TileCntrl>().Col;
+        int row = parent.GetComponent<TileCntrl>().Row;
+
+        switch (varientType)
+        {
+            case VarientType.EASY:
+                break;
+            case VarientType.CROSS:
+                Rotate(col, row + 1, !turn);
+                Rotate(col, row - 1, !turn);
+                Rotate(col + 1, row, !turn);
+                Rotate(col - 1, row, !turn);
+                break;
         }
     }
 
@@ -220,4 +247,10 @@ public class BoardCntrl : MonoBehaviour
             controller.RotateTile(turn);
         }
     }
+}
+
+public enum VarientType
+{
+    EASY = 0,
+    CROSS = 1
 }

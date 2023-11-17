@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public int BoardSize { get; private set; }
     public int NColors { get; private set; }
 
+    public void SetEasyVarient() => boardCntrl.SetVarientType(VarientType.EASY);
+    public void SetCrossVarient() => boardCntrl.SetVarientType(VarientType.CROSS);
+
     private void Awake()
     {
         if (Instance == null)
@@ -36,8 +39,13 @@ public class GameManager : MonoBehaviour
     {
         uiCntrl.DisplayBoardSize(BoardSize);
         uiCntrl.DisplayNColors(NColors);
+
+        boardCntrl.DisplayBoard();
     }
 
+    /**
+     * StartGame() - 
+     */
     public void StartGame()
     {
         boardCntrl.StartGame();
