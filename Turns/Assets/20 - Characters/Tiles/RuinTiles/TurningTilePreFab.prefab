@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7092415747745418248}
   - component: {fileID: 7099675912724292828}
   - component: {fileID: 2877322850458736266}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TurningTilePreFab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,10 +108,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e971c427419774f89f5df4ce38083d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  durationSec: 0

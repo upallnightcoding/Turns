@@ -7,6 +7,7 @@ public class BoardCntrl : MonoBehaviour
 {
     [SerializeField] private GameData gameData;
     [SerializeField] private Transform boardParent;
+    [SerializeField] private LayerMask clickLayerMask;
 
     private VarientType varientType = VarientType.EASY;
 
@@ -192,7 +193,7 @@ public class BoardCntrl : MonoBehaviour
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out RaycastHit hit, 1000))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out RaycastHit hit, 1000, clickLayerMask))
         {
             Transform parent = hit.transform.parent;
 

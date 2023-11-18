@@ -294,6 +294,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurningTilePreFab
       objectReference: {fileID: 0}
+    - target: {fileID: 7092415747747590494, guid: 5d4f7ad5110c6b44d8d0421e4bb295ad, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7092415747747837140, guid: 5d4f7ad5110c6b44d8d0421e4bb295ad, type: 3}
       propertyPath: m_RootOrder
       value: 0
