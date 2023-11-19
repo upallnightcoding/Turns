@@ -93,16 +93,20 @@ public class BoardCntrl : MonoBehaviour
         {
             for (int col = 0; col < boardSize; col++)
             {
-                //Vector3 position = new Vector3(col * 5 - 5, 0.0f, row * 5 - 5);
-                //Vector3 position = new Vector3((col-2) * 5.0f + 2.5f, 0.0f, (row-2) * 5.0f + 2.5f);
-                //Vector3 position = new Vector3((col - 2) * 5.0f, 0.0f, (row - 2) * 5.0f);
                 Vector3 position = GetPosition(col, row);
 
                 GameObject tilePreFab = gameData.turnTilePreFab;
                 GameObject tile = Instantiate(tilePreFab, position, Quaternion.identity);
-                tile.GetComponent<TileCntrl>().Initialize(col, row);
                 board[col, row] = tile;
-                //tile.transform.SetParent(parent);
+
+                TileCntrl tileCntrl = tile.GetComponent<TileCntrl>();
+                tileCntrl.Initialize(col, row);
+
+                tileCntrl.IsCorner =
+                    ((row == 0) && (col == 0)) ||
+                    ((row == 0) && (col == boardSize - 1)) ||
+                    ((row == boardSize - 1) && (col == 0)) ||
+                    ((row == boardSize - 1) && (col == boardSize - 1));
 
                 CreateTileSymbols(tile, GameData.NORTH_TILE, GetSymbol());
                 CreateTileSymbols(tile, GameData.EAST_TILE, GetSymbol());
@@ -144,7 +148,7 @@ public class BoardCntrl : MonoBehaviour
     {
         int boardSize = GameManager.Instance.BoardSize;
 
-        for (int n = 0; n < gameData.nScramble; n++)
+        for (int n = 0; n < gameData.nScramble * boardSize; n++)
         {
             int col = Random.Range(0, boardSize);
             int row = Random.Range(0, boardSize);
@@ -154,7 +158,7 @@ public class BoardCntrl : MonoBehaviour
             Transform parent = tile.transform;
             bool turn = Random.Range(0, 2) == 0;
 
-            RotateTile(parent, turn);
+            TurnTile(parent, turn);
 
             MakeVarientMove(parent, turn);
         }
@@ -197,7 +201,7 @@ public class BoardCntrl : MonoBehaviour
         {
             Transform parent = hit.transform.parent;
 
-            RotateTile(parent, turn);
+            TurnTile(parent, turn);
 
             MakeVarientMove(parent, turn);
         }
@@ -205,33 +209,58 @@ public class BoardCntrl : MonoBehaviour
 
     private void MakeVarientMove(Transform parent, bool turn)
     {
-        int col = parent.GetComponent<TileCntrl>().Col;
-        int row = parent.GetComponent<TileCntrl>().Row;
+        TileCntrl tileCntrl = parent.GetComponent<TileCntrl>();
+        int col = tileCntrl.Col;
+        int row = tileCntrl.Row;
 
         switch (varientType)
         {
             case VarientType.EASY:
                 break;
             case VarientType.CROSS:
-                Rotate(col, row + 1, !turn);
-                Rotate(col, row - 1, !turn);
-                Rotate(col + 1, row, !turn);
-                Rotate(col - 1, row, !turn);
+                TurnTile(col, row + 1, !turn);
+                TurnTile(col, row - 1, !turn);
+                TurnTile(col + 1, row, !turn);
+                TurnTile(col - 1, row, !turn);
+                break;
+            case VarientType.CORNERS:
+                ExecuteCornersVarient(tileCntrl, parent, turn);
+                break;
+            case VarientType.ONTOP:
+                TurnTile(col, row + 1, !turn);
                 break;
         }
     }
 
-    private void Rotate(int col, int row, bool turn)
+    private void ExecuteCornersVarient(TileCntrl tileCntrl, Transform parent, bool turn)
+    {
+        if (tileCntrl.IsCorner)
+        {
+            int boardSize = GameManager.Instance.BoardSize;
+
+            TurnTile(parent, !turn);
+
+            TurnTile(0, 0, turn);
+            TurnTile(0, boardSize-1, turn);
+            TurnTile(boardSize-1, 0, turn);
+            TurnTile(boardSize-1, boardSize-1, turn);
+        }
+    }
+
+    private void TurnTile(int col, int row, bool turn)
     {
         int boardSize = GameManager.Instance.BoardSize;
 
         if ((col >= 0) && (col < boardSize) && (row >= 0) && (row < boardSize))
         {
-            RotateTile(board[col, row].transform, turn);
+            TurnTile(board[col, row].transform, turn);
         }
     }
 
-    private void RotateTile(Transform parent, bool turn)
+    /**
+     * TurnTile() - 
+     */
+    private void TurnTile(Transform parent, bool turn)
     {
         Rotate(parent, turn);
 
@@ -241,6 +270,12 @@ public class BoardCntrl : MonoBehaviour
         Rotate(parent.Find("WestTile_Symbol").transform, !turn);
     }
 
+    /**
+     * Rotate() - Execute the actual turn of a tile.  The RotationCntrl uses a
+     * boolean to determine the direction to rotate the tile by 90 degrees.  If
+     * the transform of the object does not have a RotationCntrl component the
+     * rotation is skipped.
+     */
     private void Rotate(Transform transform, bool turn)
     {
         if (transform.TryGetComponent<RotationCntrl>(out RotationCntrl controller))
@@ -253,5 +288,7 @@ public class BoardCntrl : MonoBehaviour
 public enum VarientType
 {
     EASY = 0,
-    CROSS = 1
+    CROSS = 1,
+    CORNERS = 2,
+    ONTOP = 3
 }

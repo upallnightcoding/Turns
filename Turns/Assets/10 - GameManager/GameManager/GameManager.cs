@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviour
     public int BoardSize { get; private set; }
     public int NColors { get; private set; }
 
-    public void SetEasyVarient() => boardCntrl.SetVarientType(VarientType.EASY);
-    public void SetCrossVarient() => boardCntrl.SetVarientType(VarientType.CROSS);
-
     private void Awake()
     {
         if (Instance == null)
@@ -33,6 +30,8 @@ public class GameManager : MonoBehaviour
     {
         BoardSize = gameData.boardSize;
         NColors = gameData.turnTileSymbolsPreFab.Length;
+
+        uiCntrl.Initialize();
     }
 
     public void NewGame()
@@ -87,5 +86,34 @@ public class GameManager : MonoBehaviour
     public void DecNColors()
     {
         uiCntrl.DisplayNColors(--NColors);
+    }
+
+    public void ReStart()
+    {
+
+    }
+
+    public void SetEasyVarient()
+    {
+        boardCntrl.SetVarientType(VarientType.EASY);
+        uiCntrl.ActivateButton(VarientType.EASY);
+    }
+
+    public void SetCrossVarient()
+    {
+        boardCntrl.SetVarientType(VarientType.CROSS);
+        uiCntrl.ActivateButton(VarientType.CROSS);
+    }
+
+    public void SetCornersVarient()
+    {
+        boardCntrl.SetVarientType(VarientType.CORNERS);
+        uiCntrl.ActivateButton(VarientType.CORNERS);
+    }
+
+    public void SetOnTopVarient()
+    {
+        boardCntrl.SetVarientType(VarientType.ONTOP);
+        uiCntrl.ActivateButton(VarientType.ONTOP);
     }
 }

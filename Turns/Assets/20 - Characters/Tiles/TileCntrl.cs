@@ -9,6 +9,8 @@ public class TileCntrl : MonoBehaviour
     public int Col { get; private set; }
     public int Row { get; private set; }
 
+    public bool IsCorner { get; set; } = false;
+
     void Awake()
     {
         symbols = new int[4];
