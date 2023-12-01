@@ -39,15 +39,15 @@ public class GameManager : MonoBehaviour
         uiCntrl.DisplayBoardSize(BoardSize);
         uiCntrl.DisplayNColors(NColors);
 
+        boardCntrl.DestroyBoard();
         boardCntrl.DisplayBoard();
+        boardCntrl.ScrambleBoard();
     }
 
-    /**
-     * StartGame() - 
-     */
-    public void StartGame()
+    public void QuitGame()
     {
-        boardCntrl.StartGame();
+        Debug.Log("Quit Game ...");
+        //Application.Quit();
     }
 
     /**
@@ -55,13 +55,13 @@ public class GameManager : MonoBehaviour
      */
     public void IncBoardSize()
     {
-        boardCntrl.DestroyBoard();
-
-        uiCntrl.DisplayBoardSize(++BoardSize);
-
-        cameraCntrl.UpdateCameraPosition(BoardSize - 3);
-
-        boardCntrl.DisplayBoard();
+        if (BoardSize < 5)
+        {
+            boardCntrl.DestroyBoard();
+            uiCntrl.DisplayBoardSize(++BoardSize);
+            cameraCntrl.UpdateCameraPosition(BoardSize - 3);
+            boardCntrl.DisplayBoard();
+        }
     }
 
     /**
@@ -69,13 +69,13 @@ public class GameManager : MonoBehaviour
      */
     public void DecBoardSize()
     {
-        boardCntrl.DestroyBoard();
-
-        uiCntrl.DisplayBoardSize(--BoardSize);
-
-        cameraCntrl.UpdateCameraPosition(BoardSize - 3);
-
-        boardCntrl.DisplayBoard();
+        if (BoardSize > 3) 
+        { 
+            boardCntrl.DestroyBoard();
+            uiCntrl.DisplayBoardSize(--BoardSize);
+            cameraCntrl.UpdateCameraPosition(BoardSize - 3);
+            boardCntrl.DisplayBoard();
+        }
     }
 
     public void IncNColors()

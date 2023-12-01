@@ -20,18 +20,6 @@ public class TileCntrl : MonoBehaviour
         symbols[GameData.WEST_TILE] = -1;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Initialize(int col, int row)
     {
         this.Col = col;

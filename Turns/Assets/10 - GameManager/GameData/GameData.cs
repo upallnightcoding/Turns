@@ -10,6 +10,9 @@ public class GameData : ScriptableObject
     public static int SOUTH_TILE    = 2;
     public static int WEST_TILE     = 3;
 
+    [Header("Audio Clips")]
+    public AudioClip[] turningTilesSound;
+
     [Header("Board Attributes")]
     public int boardSize;
     public GameObject parent;

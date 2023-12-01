@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2fcc1cf5272d347b62ecde82f5100b, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
+  turningTilesSound:
+  - {fileID: 8300000, guid: b31bb492a50f4744c972f62e8377918a, type: 3}
+  - {fileID: 8300000, guid: 21428a559622c3a43abb0e3f23faf335, type: 3}
+  - {fileID: 8300000, guid: ed4362abd3bf1eb4fa04701de7e6ef4d, type: 3}
+  - {fileID: 8300000, guid: 616ccb1095b925c4ca037653c1fb237b, type: 3}
   boardSize: 3
   parent: {fileID: 0}
   turnTilePreFab: {fileID: 605017664973202600, guid: 19b81da70d0d641429ca829fdd7c4680, type: 3}

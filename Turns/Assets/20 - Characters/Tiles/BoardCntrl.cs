@@ -8,6 +8,7 @@ public class BoardCntrl : MonoBehaviour
     [SerializeField] private GameData gameData;
     [SerializeField] private Transform boardParent;
     [SerializeField] private LayerMask clickLayerMask;
+    [SerializeField] private AudioSource audioSource;
 
     private VarientType varientType = VarientType.EASY;
 
@@ -17,16 +18,12 @@ public class BoardCntrl : MonoBehaviour
     void Start()
     {
         DisplayBoard();
+        ScrambleBoard();
     }
 
     public void DisplayBoard()
     {
         CreateBoard(boardParent);
-    }
-
-    public void StartGame()
-    {
-        ScrambleBoard();
     }
 
     public void SetVarientType(VarientType type)
@@ -53,12 +50,21 @@ public class BoardCntrl : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             RotateTile(false);
+            audioSource.clip = pickTurningSound();
+            audioSource.Play();
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             RotateTile(true);
+            audioSource.clip = pickTurningSound();
+            audioSource.Play();
         }
+    }
+
+    private AudioClip pickTurningSound()
+    {
+        return (gameData.turningTilesSound[Random.Range(0, gameData.turningTilesSound.Length)]);
     }
 
     //=========================================================================
@@ -197,7 +203,9 @@ public class BoardCntrl : MonoBehaviour
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out RaycastHit hit, 1000, clickLayerMask))
+        Ray screenPointToRay = Camera.main.ScreenPointToRay(mousePosition);
+
+        if (Physics.Raycast(screenPointToRay, out RaycastHit hit, 1000, clickLayerMask))
         {
             Transform parent = hit.transform.parent;
 
