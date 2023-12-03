@@ -50,19 +50,30 @@ public class BoardCntrl : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             RotateTile(false);
-            audioSource.clip = pickTurningSound();
+            audioSource.clip = PickTurningSound();
             audioSource.Play();
+
+            if(CheckMatches())
+            {
+                GameManager.Instance.FlashWonPanel();
+            }
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             RotateTile(true);
-            audioSource.clip = pickTurningSound();
+            audioSource.clip = PickTurningSound();
             audioSource.Play();
+
+            if (CheckMatches())
+            {
+                GameManager.Instance.FlashWonPanel();
+            }
         }
+
     }
 
-    private AudioClip pickTurningSound()
+    private AudioClip PickTurningSound()
     {
         return (gameData.turningTilesSound[Random.Range(0, gameData.turningTilesSound.Length)]);
     }
@@ -124,7 +135,7 @@ public class BoardCntrl : MonoBehaviour
             for (int col = 0; col < boardSize; col++)
             {
                 GameObject tile = board[col, row];
-                tile.GetComponent<TileCntrl>().Initialize(col, row);
+                //tile.GetComponent<TileCntrl>().Initialize(col, row);
 
                 if (col == 0)
                 {
@@ -145,6 +156,42 @@ public class BoardCntrl : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool CheckMatches()
+    {
+        int boardSize = GameManager.Instance.BoardSize;
+        bool wonGame = true;
+
+        for (int row = 0; (row < boardSize) && wonGame; row++)
+        {
+            for (int col = 0; (col < boardSize) && wonGame; col++)
+            {
+                bool north = SymbolCompare(col, row, GameData.NORTH_TILE, col, row + 1, GameData.SOUTH_TILE, boardSize);
+                bool south = SymbolCompare(col, row, GameData.SOUTH_TILE, col, row - 1, GameData.NORTH_TILE, boardSize);
+                bool east  = SymbolCompare(col, row, GameData.EAST_TILE, col + 1, row, GameData.WEST_TILE, boardSize);
+                bool west  = SymbolCompare(col, row, GameData.WEST_TILE, col - 1, row, GameData.EAST_TILE, boardSize);
+
+                wonGame = north && south && east && west;
+            }
+        }
+
+        return (wonGame);
+    }
+
+    private bool SymbolCompare(int col, int row, int direction, int ccol, int crow, int compdirection, int boardSize)
+    {
+        bool match = true;
+
+        if ((ccol >= 0) && (ccol < boardSize) && (crow >= 0) && (crow < boardSize))
+        {
+            int symbol = board[col, row].GetComponent<TileCntrl>().GetSymbol(direction);
+            int compare = board[ccol, crow].GetComponent<TileCntrl>().GetSymbol(compdirection);
+
+            match = (symbol == compare);
+        }
+
+        return (match);
     }
 
     /**
@@ -286,9 +333,20 @@ public class BoardCntrl : MonoBehaviour
      */
     private void Rotate(Transform transform, bool turn)
     {
-        if (transform.TryGetComponent<RotationCntrl>(out RotationCntrl controller))
+        if (transform.TryGetComponent<RotationCntrl>(out RotationCntrl rotationCntrl))
         {
-            controller.RotateTile(turn);
+            rotationCntrl.RotateTile(turn);
+        }
+
+        if (transform.TryGetComponent<TileCntrl>(out TileCntrl tileCntrl))
+        {
+            if (turn)
+            {
+                tileCntrl.ClockWise();
+            } else
+            {
+                tileCntrl.CounterClockWise();
+            }
         }
     }
 }

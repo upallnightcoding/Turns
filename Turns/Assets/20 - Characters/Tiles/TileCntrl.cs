@@ -35,4 +35,25 @@ public class TileCntrl : MonoBehaviour
     {
         return (symbols[symbolPosIndex]);
     }
+
+    public void ClockWise()
+    {
+        Swap(GameData.NORTH_TILE, GameData.WEST_TILE);
+        Swap(GameData.WEST_TILE, GameData.SOUTH_TILE);
+        Swap(GameData.SOUTH_TILE, GameData.EAST_TILE);
+    }
+
+    public void CounterClockWise()
+    {
+        Swap(GameData.NORTH_TILE, GameData.EAST_TILE);
+        Swap(GameData.EAST_TILE, GameData.SOUTH_TILE);
+        Swap(GameData.SOUTH_TILE, GameData.WEST_TILE);
+    }
+
+    private void Swap(int index1, int index2)
+    {
+        int temp = symbols[index1];
+        symbols[index1] = symbols[index2];
+        symbols[index2] = temp;
+    }
 }

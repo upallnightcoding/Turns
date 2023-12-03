@@ -11,6 +11,7 @@ public class UiCntrl : MonoBehaviour
     [SerializeField] private TMP_Text boardSizeText;
     [SerializeField] private TMP_Text nColorText;
     [SerializeField] private GameObject instructionPanel;
+    [SerializeField] private GameObject wonPanel;
 
     [SerializeField] private TMP_Text[] varientButtons;
 
@@ -19,6 +20,18 @@ public class UiCntrl : MonoBehaviour
         DeActivateAllVarientButtons();
 
         ActivateButton(varientButtons[(int)VarientType.EASY]);
+    }
+
+    public void FlashWonPanel()
+    {
+        StartCoroutine(DisplayWonPanel());
+    }
+
+    private IEnumerator DisplayWonPanel()
+    {
+        wonPanel.SetActive(true);
+        yield return new WaitForSeconds(2);
+        wonPanel.SetActive(false);
     }
 
     public void ActivateButton(VarientType type)

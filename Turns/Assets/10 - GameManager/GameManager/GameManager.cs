@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour
         boardCntrl.ScrambleBoard();
     }
 
+    public void FlashWonPanel()
+    {
+        uiCntrl.FlashWonPanel();
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit Game ...");
