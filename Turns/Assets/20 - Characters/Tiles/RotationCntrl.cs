@@ -30,7 +30,7 @@ public class RotationCntrl : MonoBehaviour
 
     private IEnumerator RotateTileClockwise()
     {
-        for (float startDeg = 0.0f; startDeg < 90.0f; startDeg+=1.0f)
+        for (float startDeg = 0.0f; startDeg < 90.0f; startDeg += 1.0f)
         {
             transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f));
             yield return null;

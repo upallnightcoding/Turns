@@ -64,8 +64,9 @@ public class GameManager : MonoBehaviour
         {
             boardCntrl.DestroyBoard();
             uiCntrl.DisplayBoardSize(++BoardSize);
-            cameraCntrl.UpdateCameraPosition(BoardSize - 3);
+            //cameraCntrl.UpdateCameraPosition(BoardSize - 3);
             boardCntrl.DisplayBoard();
+            boardCntrl.ScrambleBoard();
         }
     }
 
@@ -78,8 +79,9 @@ public class GameManager : MonoBehaviour
         { 
             boardCntrl.DestroyBoard();
             uiCntrl.DisplayBoardSize(--BoardSize);
-            cameraCntrl.UpdateCameraPosition(BoardSize - 3);
+            //cameraCntrl.UpdateCameraPosition(BoardSize - 3);
             boardCntrl.DisplayBoard();
+            boardCntrl.ScrambleBoard();
         }
     }
 

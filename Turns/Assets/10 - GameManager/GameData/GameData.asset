@@ -31,7 +31,7 @@ MonoBehaviour:
   - EastTile
   - SouthTile
   - WestTile
-  nScramble: 1
+  nScramble: 10
   cameraPosition:
   - 15
   - 20

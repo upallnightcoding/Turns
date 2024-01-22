@@ -50,8 +50,6 @@ public class BoardCntrl : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             RotateTile(false);
-            audioSource.clip = PickTurningSound();
-            audioSource.Play();
 
             if(CheckMatches())
             {
@@ -62,8 +60,6 @@ public class BoardCntrl : MonoBehaviour
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             RotateTile(true);
-            audioSource.clip = PickTurningSound();
-            audioSource.Play();
 
             if (CheckMatches())
             {
@@ -199,6 +195,11 @@ public class BoardCntrl : MonoBehaviour
      */
     public void ScrambleBoard()
     {
+        StartCoroutine(ScrambleBoardCoroutine());
+    }
+
+    private IEnumerator ScrambleBoardCoroutine()
+    {
         int boardSize = GameManager.Instance.BoardSize;
 
         for (int n = 0; n < gameData.nScramble * boardSize; n++)
@@ -214,6 +215,8 @@ public class BoardCntrl : MonoBehaviour
             TurnTile(parent, turn);
 
             MakeVarientMove(parent, turn);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -259,7 +262,15 @@ public class BoardCntrl : MonoBehaviour
             TurnTile(parent, turn);
 
             MakeVarientMove(parent, turn);
+
+            MakeTurnSound();
         }
+    }
+
+    private void MakeTurnSound()
+    {
+        audioSource.clip = PickTurningSound();
+        audioSource.Play();
     }
 
     private void MakeVarientMove(Transform parent, bool turn)
