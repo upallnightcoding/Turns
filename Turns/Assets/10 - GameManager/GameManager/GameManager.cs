@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public int BoardSize { get; private set; }
     public int NColors { get; private set; }
 
+    private bool blockWonPanel = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,26 +31,46 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         BoardSize = gameData.boardSize;
-        NColors = gameData.turnTileSymbolsPreFab.Length;
+        NColors = gameData.turnTileSymbolsPreFab.Length - 1;
 
         uiCntrl.Initialize();
     }
 
+    /**
+     * NewGame() - This function is executed when the "New" button is
+     * clicked.  The board is reset and scrambled in an effort to start
+     * a new game.
+     */
     public void NewGame()
     {
-        uiCntrl.DisplayBoardSize(BoardSize);
-        uiCntrl.DisplayNColors(NColors);
+        //uiCntrl.DisplayBoardSize(BoardSize);
+        //uiCntrl.DisplayNColors(NColors);
 
         boardCntrl.DestroyBoard();
         boardCntrl.DisplayBoard();
         boardCntrl.ScrambleBoard();
+
+        blockWonPanel = false;
+        uiCntrl.TurnNewArrowOff();
     }
 
+    /**
+     * FlashWonPanel() - Display the Won panel, if it has not been blocked.
+     * The panel is block, if it has already been shown but the new button
+     * has not been clicked to start a new game.
+     */
     public void FlashWonPanel()
     {
-        uiCntrl.FlashWonPanel();
+        if (!blockWonPanel)
+        {
+            uiCntrl.FlashWonPanel();
+            blockWonPanel = true;
+        }
     }
 
+    /**
+     * QuitGame() - Quit the game and close the application.
+     */
     public void QuitGame()
     {
         Debug.Log("Quit Game ...");
@@ -66,7 +88,7 @@ public class GameManager : MonoBehaviour
             uiCntrl.DisplayBoardSize(++BoardSize);
             //cameraCntrl.UpdateCameraPosition(BoardSize - 3);
             boardCntrl.DisplayBoard();
-            boardCntrl.ScrambleBoard();
+            //boardCntrl.ScrambleBoard();
         }
     }
 
@@ -79,20 +101,25 @@ public class GameManager : MonoBehaviour
         { 
             boardCntrl.DestroyBoard();
             uiCntrl.DisplayBoardSize(--BoardSize);
-            //cameraCntrl.UpdateCameraPosition(BoardSize - 3);
             boardCntrl.DisplayBoard();
-            boardCntrl.ScrambleBoard();
+            //boardCntrl.ScrambleBoard();
         }
     }
 
     public void IncNColors()
     {
-        uiCntrl.DisplayNColors(++NColors);
+        if (NColors < 5)
+        {
+            uiCntrl.DisplayNColors(++NColors);
+        }
     }
 
     public void DecNColors()
     {
-        uiCntrl.DisplayNColors(--NColors);
+        if (NColors > 2)
+        {
+            uiCntrl.DisplayNColors(--NColors);
+        }
     }
 
     public void ReStart()

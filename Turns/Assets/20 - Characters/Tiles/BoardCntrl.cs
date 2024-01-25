@@ -14,6 +14,8 @@ public class BoardCntrl : MonoBehaviour
 
     private GameObject[,] board;
 
+    private Vector2 mouseClick;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,15 +49,9 @@ public class BoardCntrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            RotateTile(false);
+        //Mouse.current.WarpCursorPosition(mouseClick);
 
-            if(CheckMatches())
-            {
-                GameManager.Instance.FlashWonPanel();
-            }
-        }
+        //mouseClick = Mouse.current.position.ReadValue();
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
@@ -67,6 +63,15 @@ public class BoardCntrl : MonoBehaviour
             }
         }
 
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            RotateTile(false);
+
+            if(CheckMatches())
+            {
+                GameManager.Instance.FlashWonPanel();
+            }
+        }
     }
 
     private AudioClip PickTurningSound()

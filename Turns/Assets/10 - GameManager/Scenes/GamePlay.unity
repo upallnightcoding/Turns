@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
   m_sharedMaterial: {fileID: 2830636965969884548, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
@@ -2338,6 +2338,7 @@ MonoBehaviour:
   - {fileID: 360881419}
   - {fileID: 1351030356}
   - {fileID: 1676753297}
+  newArrow: {fileID: 1501462797}
 --- !u!1 &1124995066
 GameObject:
   m_ObjectHideFlags: 0
@@ -2954,13 +2955,14 @@ GameObject:
   - component: {fileID: 1501462798}
   - component: {fileID: 1501462800}
   - component: {fileID: 1501462799}
+  - component: {fileID: 1501462801}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1501462798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3018,6 +3020,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501462797}
   m_CullTransparentMesh: 1
+--- !u!114 &1501462801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501462797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ce4c9496037ac4cb9ae3ce1f183d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1548606782
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,11 +15,23 @@ public class UiCntrl : MonoBehaviour
 
     [SerializeField] private TMP_Text[] varientButtons;
 
+    [SerializeField] private GameObject newArrow;
+
     public void Initialize()
     {
         DeActivateAllVarientButtons();
 
         ActivateButton(varientButtons[(int)VarientType.EASY]);
+    }
+
+    private void TurnNewArrowOn()
+    {
+        newArrow.SetActive(true);
+    }
+
+    public void TurnNewArrowOff()
+    {
+        newArrow.SetActive(false);
     }
 
     public void FlashWonPanel()
@@ -29,6 +41,7 @@ public class UiCntrl : MonoBehaviour
 
     private IEnumerator DisplayWonPanel()
     {
+        TurnNewArrowOn();
         wonPanel.SetActive(true);
         yield return new WaitForSeconds(2);
         wonPanel.SetActive(false);
