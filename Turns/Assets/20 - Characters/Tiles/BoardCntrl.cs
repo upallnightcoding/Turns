@@ -7,20 +7,17 @@ public class BoardCntrl : MonoBehaviour
 {
     [SerializeField] private GameData gameData;
     [SerializeField] private Transform boardParent;
-    [SerializeField] private LayerMask clickLayerMask;
+    [SerializeField] private LayerMask tileLayerMask;
     [SerializeField] private AudioSource audioSource;
 
     private VarientType varientType = VarientType.EASY;
 
     private GameObject[,] board;
 
-    private Vector2 mouseClick;
-
     // Start is called before the first frame update
     void Start()
     {
         DisplayBoard();
-        ScrambleBoard();
     }
 
     public void DisplayBoard()
@@ -33,6 +30,9 @@ public class BoardCntrl : MonoBehaviour
         varientType = type;
     }
 
+    /**
+     * DestroyBoard() - 
+     */
     public void DestroyBoard()
     {
         int boardSize = GameManager.Instance.BoardSize;
@@ -49,15 +49,9 @@ public class BoardCntrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Mouse.current.WarpCursorPosition(mouseClick);
-
-        //mouseClick = Mouse.current.position.ReadValue();
-
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
-            RotateTile(true);
-
-            if (CheckMatches())
+            if (CheckMatches() && RotateTile(true))
             {
                 GameManager.Instance.FlashWonPanel();
             }
@@ -65,9 +59,7 @@ public class BoardCntrl : MonoBehaviour
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            RotateTile(false);
-
-            if(CheckMatches())
+            if(CheckMatches() && RotateTile(false))
             {
                 GameManager.Instance.FlashWonPanel();
             }
@@ -81,6 +73,11 @@ public class BoardCntrl : MonoBehaviour
 
     //=========================================================================
 
+    /**
+     * GetPosition() - Returns the position of a given [col, row] tile
+     * based on the size of the board.  The size of the borad is always
+     * equare and is limited to 3, 4, or 5 tiles across.
+     */
     private Vector3 GetPosition(int col, int row)
     {
         Vector4 position = Vector3.zero;
@@ -101,6 +98,9 @@ public class BoardCntrl : MonoBehaviour
         return (position);
     }
 
+    /**
+     * CreateBoard() - 
+     */
     private void CreateBoard(Transform parent)
     {
         int boardSize = GameManager.Instance.BoardSize;
@@ -114,7 +114,13 @@ public class BoardCntrl : MonoBehaviour
                 Vector3 position = GetPosition(col, row);
 
                 GameObject tilePreFab = gameData.turnTilePreFab;
-                GameObject tile = Instantiate(tilePreFab, position, Quaternion.identity);
+
+                // Create tile, position and rotate game tile
+                GameObject tile = Instantiate(tilePreFab);
+                tile.transform.parent = parent;
+                tile.transform.localPosition = position;
+                tile.transform.rotation = Quaternion.identity;
+                
                 board[col, row] = tile;
 
                 TileCntrl tileCntrl = tile.GetComponent<TileCntrl>();
@@ -136,7 +142,6 @@ public class BoardCntrl : MonoBehaviour
             for (int col = 0; col < boardSize; col++)
             {
                 GameObject tile = board[col, row];
-                //tile.GetComponent<TileCntrl>().Initialize(col, row);
 
                 if (col == 0)
                 {
@@ -254,13 +259,13 @@ public class BoardCntrl : MonoBehaviour
     /**
      * RotateTile() - 
      */
-    private void RotateTile(bool turn)
+    private bool RotateTile(bool turn)
     {
+        bool selectedTile = false;
         Vector2 mousePosition = Mouse.current.position.ReadValue();
-
         Ray screenPointToRay = Camera.main.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(screenPointToRay, out RaycastHit hit, 1000, clickLayerMask))
+        if (Physics.Raycast(screenPointToRay, out RaycastHit hit, 1000, tileLayerMask))
         {
             Transform parent = hit.transform.parent;
 
@@ -269,7 +274,11 @@ public class BoardCntrl : MonoBehaviour
             MakeVarientMove(parent, turn);
 
             MakeTurnSound();
+
+            selectedTile = true;
         }
+
+        return (selectedTile);
     }
 
     private void MakeTurnSound()

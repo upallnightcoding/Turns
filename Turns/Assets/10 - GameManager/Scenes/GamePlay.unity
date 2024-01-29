@@ -3562,7 +3562,7 @@ RectTransform:
   m_GameObject: {fileID: 1868449659}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.97, y: 1, z: 1}
   m_Children:
   - {fileID: 8231010828434371841}
   m_Father: {fileID: 1857513287}
@@ -3570,8 +3570,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 118.272, y: -91.694}
-  m_SizeDelta: {x: 336.545, y: 283.389}
+  m_AnchoredPosition: {x: -0.00033569, y: -6.4998}
+  m_SizeDelta: {x: 100, y: 113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1873514180
 GameObject:
@@ -4002,7 +4002,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057650394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4021,8 +4021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 921fecf7064fc8944be64133f94c5761, type: 2}
-  boardParent: {fileID: 0}
-  clickLayerMask:
+  boardParent: {fileID: 2057650395}
+  tileLayerMask:
     serializedVersion: 2
     m_Bits: 64
   audioSource: {fileID: 2057650397}

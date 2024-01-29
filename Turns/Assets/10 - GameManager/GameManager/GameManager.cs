@@ -73,8 +73,7 @@ public class GameManager : MonoBehaviour
      */
     public void QuitGame()
     {
-        Debug.Log("Quit Game ...");
-        //Application.Quit();
+        Application.Quit();
     }
 
     /**
@@ -86,9 +85,7 @@ public class GameManager : MonoBehaviour
         {
             boardCntrl.DestroyBoard();
             uiCntrl.DisplayBoardSize(++BoardSize);
-            //cameraCntrl.UpdateCameraPosition(BoardSize - 3);
             boardCntrl.DisplayBoard();
-            //boardCntrl.ScrambleBoard();
         }
     }
 
@@ -102,10 +99,12 @@ public class GameManager : MonoBehaviour
             boardCntrl.DestroyBoard();
             uiCntrl.DisplayBoardSize(--BoardSize);
             boardCntrl.DisplayBoard();
-            //boardCntrl.ScrambleBoard();
         }
     }
 
+    /**
+     * IncNColors() - 
+     */
     public void IncNColors()
     {
         if (NColors < 5)
@@ -114,6 +113,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /**
+     * DecNColors() - 
+     */
     public void DecNColors()
     {
         if (NColors > 2)
@@ -122,10 +124,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReStart()
+    /*public void ReStart()
     {
 
-    }
+    }*/
 
     public void SetEasyVarient()
     {
