@@ -51,7 +51,7 @@ public class BoardCntrl : MonoBehaviour
     {
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
-            if (CheckMatches() && RotateTile(true))
+            if (RotateTile(true) && CheckMatches())
             {
                 GameManager.Instance.FlashWonPanel();
             }
@@ -59,7 +59,7 @@ public class BoardCntrl : MonoBehaviour
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if(CheckMatches() && RotateTile(false))
+            if(RotateTile(false) && CheckMatches())
             {
                 GameManager.Instance.FlashWonPanel();
             }

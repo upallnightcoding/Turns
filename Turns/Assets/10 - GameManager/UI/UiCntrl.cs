@@ -10,7 +10,8 @@ public class UiCntrl : MonoBehaviour
 
     [SerializeField] private TMP_Text boardSizeText;
     [SerializeField] private TMP_Text nColorText;
-    [SerializeField] private GameObject instructionPanel;
+    [SerializeField] private GameObject helpPage1;
+    [SerializeField] private GameObject helpPage2;
     [SerializeField] private GameObject wonPanel;
 
     [SerializeField] private TMP_Text[] varientButtons;
@@ -85,13 +86,24 @@ public class UiCntrl : MonoBehaviour
         nColorText.text = nColors.ToString();
     }
 
-    public void DisplayInstructionPanel()
+    public void DisplayPage1()
     {
-        instructionPanel.SetActive(true);
+        Debug.Log("DisplayPage1");
+        helpPage1.SetActive(true);
+        helpPage2.SetActive(false);
     }
 
-    public void HideInstructionPanel()
+    public void DisplayPage2()
     {
-        instructionPanel.SetActive(false);
+        Debug.Log("DisplayPage2");
+        helpPage1.SetActive(false);
+        helpPage2.SetActive(true);
+    }
+
+    public void TurnOffPage()
+    {
+        Debug.Log("TurnOffPage");
+        helpPage1.SetActive(false);
+        helpPage2.SetActive(false);
     }
 }
