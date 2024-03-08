@@ -212,7 +212,7 @@ public class BoardCntrl : MonoBehaviour
     {
         int boardSize = GameManager.Instance.BoardSize;
 
-        for (int n = 0; n < gameData.nScramble * boardSize; n++)
+        /*for (int n = 0; n < gameData.nScramble * boardSize; n++)
         {
             int col = Random.Range(0, boardSize);
             int row = Random.Range(0, boardSize);
@@ -227,6 +227,26 @@ public class BoardCntrl : MonoBehaviour
             MakeVarientMove(parent, turn);
 
             yield return new WaitForSeconds(0.1f);
+        }*/
+
+        for (int col = 0; col < boardSize; col++) 
+        { 
+            for (int row = 0; row < boardSize; row++)
+            {
+                //int col = Random.Range(0, boardSize);
+                //int row = Random.Range(0, boardSize);
+
+                GameObject tile = board[col, row];
+
+                Transform parent = tile.transform;
+                bool turn = Random.Range(0, 2) == 0;
+
+                TurnTile(parent, turn);
+
+                MakeVarientMove(parent, turn);
+
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 
@@ -360,7 +380,7 @@ public class BoardCntrl : MonoBehaviour
     {
         if (transform.TryGetComponent<RotationCntrl>(out RotationCntrl rotationCntrl))
         {
-            rotationCntrl.RotateTile(turn);
+            rotationCntrl.TurnTile(turn);
         }
 
         if (transform.TryGetComponent<TileCntrl>(out TileCntrl tileCntrl))
@@ -372,6 +392,14 @@ public class BoardCntrl : MonoBehaviour
             {
                 tileCntrl.CounterClockWise();
             }
+        }
+    }
+
+    public void RightMouse(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //Debug.Log($"Mouse position: {context.ReadValue<Vector2>()}");
         }
     }
 }

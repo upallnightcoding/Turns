@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SpinArrow : MonoBehaviour
 {
-    private float turn = 10.0f;
-    private float turnSpeed = 7.0f;
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private float turn;
+    [SerializeField] private float turnSpeed;
 
     // Start is called before the first frame update
     void Start()

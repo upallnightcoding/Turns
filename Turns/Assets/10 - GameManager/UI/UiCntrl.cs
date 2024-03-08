@@ -13,16 +13,47 @@ public class UiCntrl : MonoBehaviour
     [SerializeField] private GameObject helpPage1;
     [SerializeField] private GameObject helpPage2;
     [SerializeField] private GameObject wonPanel;
+    [SerializeField] private TMP_Text clockFace;
 
     [SerializeField] private TMP_Text[] varientButtons;
 
     [SerializeField] private GameObject newArrow;
+
+    private int minutes = 0, seconds = 0;
+    private float totalSecs = 0.0f;
+    private bool timerOn = false;
 
     public void Initialize()
     {
         DeActivateAllVarientButtons();
 
         ActivateButton(varientButtons[(int)VarientType.EASY]);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateClock(Time.deltaTime);
+    }
+
+    private void UpdateClock(float dt)
+    {
+        if (timerOn)
+        {
+            totalSecs += dt;
+
+            if (totalSecs >= 1.0f)
+            {
+                totalSecs = 0.0f;
+                seconds = (seconds + 1) % 60;
+                if (seconds == 0)
+                {
+                    minutes += 1;
+                }
+
+                clockFace.text = $"{minutes.ToString("00")}:{seconds.ToString("00")}";
+            }
+        }
     }
 
     private void TurnNewArrowOn()
@@ -35,8 +66,16 @@ public class UiCntrl : MonoBehaviour
         newArrow.SetActive(false);
     }
 
+    public void TurnTimerOn()
+    {
+        timerOn = true;
+        minutes = 0;
+        seconds = 0;
+    }
+
     public void FlashWonPanel()
     {
+        timerOn = false;
         StartCoroutine(DisplayWonPanel());
     }
 

@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         blockWonPanel = false;
         uiCntrl.TurnNewArrowOff();
+        uiCntrl.TurnTimerOn();
     }
 
     /**
@@ -123,11 +124,6 @@ public class GameManager : MonoBehaviour
             uiCntrl.DisplayNColors(--NColors);
         }
     }
-
-    /*public void ReStart()
-    {
-
-    }*/
 
     public void SetEasyVarient()
     {
