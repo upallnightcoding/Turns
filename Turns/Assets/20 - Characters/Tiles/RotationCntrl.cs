@@ -30,18 +30,6 @@ public class RotationCntrl : MonoBehaviour
         }
     }
 
-    /*public void RotateTile(bool turn)
-    {
-        if (turn)
-        {
-            StartCoroutine(RotateTileClockwise());
-        } else
-        {
-            StartCoroutine(RotateTileCounterClockwise());
-        }
-        
-    }*/
-
     public void TurnTile(bool turn)
     {
         direction = (turn) ? 1.0f : -1.0f;
@@ -52,43 +40,8 @@ public class RotationCntrl : MonoBehaviour
         turnTile = true;
     }
 
-    /*private IEnumerator RotateTileClockwise()
+    public bool IsTurning()
     {
-        float direction = 1.0f;
-        float delta = 0.0f;
-        float amount = 0.0f;
-
-        while (amount <= 90.0f)
-        {
-            transform.RotateAround(transform.position, Vector3.up, direction * delta);
-            yield return null;
-
-            delta = rotateSpeed * 0.001f; // Time.deltaTime;
-            amount += delta;
-        }
-
-        delta = amount - 90.0f;
-        transform.RotateAround(transform.position, Vector3.up, direction * delta);
-        yield return null;
-    }*/
-
-    /*private IEnumerator RotateTileCounterClockwise()
-    {
-        float direction = -1.0f;
-        float delta = 0.0f;
-        float amount = 0.0f;
-
-        while (amount <= 90.0f)
-        {
-            transform.RotateAround(transform.position, Vector3.up, direction * delta);
-            yield return null;
-
-            delta = rotateSpeed * 0.001f; // Time.deltaTime;
-            amount += delta;
-        }
-
-        delta = amount - 90.0f;
-        transform.RotateAround(transform.position, Vector3.up, direction * delta);
-        yield return null;
-    }*/
+        return (turnTile);
+    }
 }

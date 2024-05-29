@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class BoardCntrl : MonoBehaviour
@@ -13,6 +14,8 @@ public class BoardCntrl : MonoBehaviour
     private VarientType varientType = VarientType.EASY;
 
     private GameObject[,] board;
+
+    private Vector2 mp = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -47,15 +50,19 @@ public class BoardCntrl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        /*if (Mouse.current.rightButton.isPressed)
         {
             if (RotateTile(true) && CheckMatches())
             {
                 GameManager.Instance.FlashWonPanel();
             }
-        }
+        }*/
+
+        mp = Mouse.current.position.ReadValue();
+        Debug.Log($"Set Mouse Position {mp}");
+        Mouse.current.WarpCursorPosition(mp);
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -63,6 +70,23 @@ public class BoardCntrl : MonoBehaviour
             {
                 GameManager.Instance.FlashWonPanel();
             }
+        }
+    }
+
+    public void OnRightMouseButton(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (RotateTile(true) && CheckMatches())
+            {
+                GameManager.Instance.FlashWonPanel();
+                
+            }
+        }
+
+        if (context.canceled)
+        {
+            Mouse.current.WarpCursorPosition(mp);
         }
     }
 
@@ -212,23 +236,6 @@ public class BoardCntrl : MonoBehaviour
     {
         int boardSize = GameManager.Instance.BoardSize;
 
-        /*for (int n = 0; n < gameData.nScramble * boardSize; n++)
-        {
-            int col = Random.Range(0, boardSize);
-            int row = Random.Range(0, boardSize);
-
-            GameObject tile = board[col, row];
-
-            Transform parent = tile.transform;
-            bool turn = Random.Range(0, 2) == 0;
-
-            TurnTile(parent, turn);
-
-            MakeVarientMove(parent, turn);
-
-            yield return new WaitForSeconds(0.1f);
-        }*/
-
         for (int col = 0; col < boardSize; col++) 
         { 
             for (int row = 0; row < boardSize; row++)
@@ -289,11 +296,12 @@ public class BoardCntrl : MonoBehaviour
         {
             Transform parent = hit.transform.parent;
 
-            TurnTile(parent, turn);
+            if(!TurnTile(parent, turn))
+            {
+                MakeVarientMove(parent, turn);
 
-            MakeVarientMove(parent, turn);
-
-            MakeTurnSound();
+                MakeTurnSound();
+            }
 
             selectedTile = true;
         }
@@ -360,14 +368,19 @@ public class BoardCntrl : MonoBehaviour
     /**
      * TurnTile() - 
      */
-    private void TurnTile(Transform parent, bool turn)
+    private bool TurnTile(Transform parent, bool turn)
     {
-        Rotate(parent, turn);
+        bool isBusy = Rotate(parent, turn);
 
-        Rotate(parent.Find("NorthTile_Symbol").transform, !turn);
-        Rotate(parent.Find("SouthTile_Symbol").transform, !turn);
-        Rotate(parent.Find("EastTile_Symbol").transform, !turn);
-        Rotate(parent.Find("WestTile_Symbol").transform, !turn);
+        if (!isBusy)
+        { 
+            Rotate(parent.Find("NorthTile_Symbol").transform, !turn);
+            Rotate(parent.Find("SouthTile_Symbol").transform, !turn);
+            Rotate(parent.Find("EastTile_Symbol").transform, !turn);
+            Rotate(parent.Find("WestTile_Symbol").transform, !turn);
+        }
+
+        return (isBusy);
     }
 
     /**
@@ -376,11 +389,14 @@ public class BoardCntrl : MonoBehaviour
      * the transform of the object does not have a RotationCntrl component the
      * rotation is skipped.
      */
-    private void Rotate(Transform transform, bool turn)
+    private bool Rotate(Transform transform, bool turn)
     {
         if (transform.TryGetComponent<RotationCntrl>(out RotationCntrl rotationCntrl))
         {
+            if (rotationCntrl.IsTurning()) return (true);
+
             rotationCntrl.TurnTile(turn);
+            
         }
 
         if (transform.TryGetComponent<TileCntrl>(out TileCntrl tileCntrl))
@@ -393,15 +409,11 @@ public class BoardCntrl : MonoBehaviour
                 tileCntrl.CounterClockWise();
             }
         }
+
+        return (false);
     }
 
-    public void RightMouse(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            //Debug.Log($"Mouse position: {context.ReadValue<Vector2>()}");
-        }
-    }
+   
 }
 
 public enum VarientType

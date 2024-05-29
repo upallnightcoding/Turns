@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a7f5f7174a8bdf42b7ea39c2796f951, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b34d9e23d8354a64ca7bde69224a595d, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2808,7 +2808,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b34d9e23d8354a64ca7bde69224a595d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9a7f5f7174a8bdf42b7ea39c2796f951, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4969,7 +4969,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2057650396}
         m_TargetAssemblyTypeName: BoardCntrl, Assembly-CSharp
-        m_MethodName: RightMouse
+        m_MethodName: OnRightMouseButton
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

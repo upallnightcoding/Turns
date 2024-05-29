@@ -31,9 +31,9 @@
                 },
                 {
                     "name": "RightMouseButton",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "4681787d-1ce3-4d5f-9513-3f94a5db25c4",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -262,7 +262,7 @@
                 {
                     "name": "",
                     "id": "5d8fed10-cf45-4743-a914-e1bf09012165",
-                    "path": "<Mouse>/position",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
