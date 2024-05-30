@@ -49,29 +49,23 @@ public class BoardCntrl : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void OnLeftMouseButton(InputAction.CallbackContext context)
     {
-        /*if (Mouse.current.rightButton.isPressed)
+        if (context.performed)
         {
-            if (RotateTile(true) && CheckMatches())
+            if (RotateTile(false) && CheckMatches())
             {
                 GameManager.Instance.FlashWonPanel();
             }
-        }*/
 
-        mp = Mouse.current.position.ReadValue();
-        Debug.Log($"Set Mouse Position {mp}");
-        Mouse.current.WarpCursorPosition(mp);
+            mp = Mouse.current.position.ReadValue();
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if(RotateTile(false) && CheckMatches())
-            {
-                GameManager.Instance.FlashWonPanel();
-            }
+            Cursor.visible = false;
+
+            StartCoroutine(PositionMouse(mp));
         }
     }
+
 
     public void OnRightMouseButton(InputAction.CallbackContext context)
     {
@@ -80,14 +74,23 @@ public class BoardCntrl : MonoBehaviour
             if (RotateTile(true) && CheckMatches())
             {
                 GameManager.Instance.FlashWonPanel();
-                
             }
-        }
 
-        if (context.canceled)
-        {
-            Mouse.current.WarpCursorPosition(mp);
+            mp = Mouse.current.position.ReadValue();
+
+            Cursor.visible = false;
+
+            StartCoroutine(PositionMouse(mp));
         }
+    }
+
+    private IEnumerator PositionMouse(Vector2 mp)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        Mouse.current.WarpCursorPosition(mp);
+
+        Cursor.visible = true;
     }
 
     private AudioClip PickTurningSound()
