@@ -243,9 +243,6 @@ public class BoardCntrl : MonoBehaviour
         { 
             for (int row = 0; row < boardSize; row++)
             {
-                //int col = Random.Range(0, boardSize);
-                //int row = Random.Range(0, boardSize);
-
                 GameObject tile = board[col, row];
 
                 Transform parent = tile.transform;
@@ -253,9 +250,9 @@ public class BoardCntrl : MonoBehaviour
 
                 TurnTile(parent, turn);
 
-                MakeVarientMove(parent, turn);
+                yield return new WaitForSeconds(0.2f);
 
-                yield return new WaitForSeconds(0.1f);
+                MakeVarientMove(parent, turn);
             }
         }
     }
@@ -287,7 +284,10 @@ public class BoardCntrl : MonoBehaviour
     }
 
     /**
-     * RotateTile() - 
+     * RotateTile() - Rotates the tile based on a players right or left 
+     * click.  The boolean parameter determines the direction of the 
+     * rotation.  If there is a varient set for the game, it is taken
+     * care of automatically.
      */
     private bool RotateTile(bool turn)
     {
@@ -358,6 +358,9 @@ public class BoardCntrl : MonoBehaviour
         }
     }
 
+    /**
+     * TurnTile() - 
+     */
     private void TurnTile(int col, int row, bool turn)
     {
         int boardSize = GameManager.Instance.BoardSize;
@@ -415,8 +418,6 @@ public class BoardCntrl : MonoBehaviour
 
         return (false);
     }
-
-   
 }
 
 public enum VarientType
